@@ -2,6 +2,7 @@ define([
     "dojo/Evented",
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/string",
     "dojo/has",
     "esri/kernel",
     "dijit/_WidgetBase",
@@ -18,13 +19,13 @@ define([
     "esri/request",
     "esri/urlUtils",
     "dijit/Dialog",
-    "dojo/number",
     "dojo/_base/event"
 ],
     function (
         Evented,
         declare,
         lang,
+        string,
         has, esriNS,
         _WidgetBase, a11yclick, _TemplatedMixin,
         on,
@@ -33,7 +34,6 @@ define([
         esriRequest,
         urlUtils,
         Dialog,
-        number,
         event
     ) {
         var Widget = declare("esri.dijit.ShareDialog", [_WidgetBase, _TemplatedMixin, Evented], {
@@ -49,10 +49,10 @@ define([
                 title: window.document.title,
                 summary: '',
                 hashtags: '',
-                mailURL: 'mailto:%20?subject={title}&body={summary}%20{url}',
-                facebookURL: "https://www.facebook.com/sharer/sharer.php?s=100&p[url]={url}&p[images][0]={image}&p[title]={title}&p[summary]={summary}",
-                twitterURL: "https://twitter.com/intent/tweet?url={url}&text={title}&hashtags={hashtags}",
-                googlePlusURL: "https://plus.google.com/share?url={url}",
+                mailURL: 'mailto:%20?subject=${title}&body=${summary}%20${url}',
+                facebookURL: "https://www.facebook.com/sharer/sharer.php?u=${url}",
+                twitterURL: "https://twitter.com/intent/tweet?url=${url}&text=${title}&hashtags=${hashtags}",
+                googlePlusURL: "https://plus.google.com/share?url=${url}",
                 bitlyAPI: location.protocol === "https:" ? "https://api-ssl.bitly.com/v3/shorten" : "http://api.bit.ly/v3/shorten",
                 bitlyLogin: "",
                 bitlyKey: "",
@@ -192,6 +192,12 @@ define([
             /* ---------------- */
             /* Private Functions */
             /* ---------------- */
+            _stripTags: function (str) {
+                var text = domConstruct.create("div", {
+                    innerHTML: str
+                }).textContent;
+                return text || '';
+            },
             _setExtentChecked: function () {
                 domAttr.set(this._extentInput, 'checked', this.get("useExtent"));
             },
@@ -199,9 +205,9 @@ define([
                 var value = domAttr.get(this._extentInput, 'checked');
                 this.set("useExtent", value);
             },
-            _useExtentChanged: function(){
+            _useExtentChanged: function () {
                 this._updateUrl();
-                this._shareLink();  
+                this._shareLink();
             },
             _setSizeOptions: function () {
                 // clear select menu
@@ -234,20 +240,20 @@ define([
                 // get url params
                 var urlObject = urlUtils.urlToObject(window.location.href);
                 urlObject.query = urlObject.query || {};
+                // Remove edit=true from the query parameters
+                if (urlObject.query.edit) {
+                    delete urlObject.query.edit;
+                }
+                // remove folder id
+                if (urlObject.query.folderid) {
+                    delete urlObject.query.folderid;
+                }
                 // include extent in url
                 if (this.get("useExtent") && map) {
                     // get map extent in geographic
                     var gExtent = map.geographicExtent;
                     // set extent string
-                    urlObject.query.extent = number.format(gExtent.xmin, {
-                        places: 4
-                    }) + ',' + number.format(gExtent.ymin, {
-                        places: 4
-                    }) + ',' + number.format(gExtent.xmax, {
-                        places: 4
-                    }) + ',' + number.format(gExtent.ymax, {
-                        places: 4
-                    });
+                    urlObject.query.extent = gExtent.xmin.toFixed(4) + ',' + gExtent.ymin.toFixed(4) + ',' + gExtent.xmax.toFixed(4) + ',' + gExtent.ymax.toFixed(4);
 
                 } else {
                     urlObject.query.extent = null;
@@ -389,11 +395,11 @@ define([
             },
             _configureShareLink: function (Link, isMail) {
                 // replace strings
-                var fullLink = lang.replace(Link, {
+                var fullLink = string.substitute(Link, {
                     url: encodeURIComponent(this.get("bitlyUrl") ? this.get("bitlyUrl") : this.get("url")),
                     image: encodeURIComponent(this.get("image")),
                     title: encodeURIComponent(this.get("title")),
-                    summary: encodeURIComponent(this.get("summary")),
+                    summary: encodeURIComponent(this._stripTags(this.get("summary"))),
                     hashtags: encodeURIComponent(this.get("hashtags"))
                 });
                 // email link

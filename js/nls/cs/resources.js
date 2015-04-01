@@ -1,7 +1,8 @@
 ﻿define(
      ({
         map: {
-            error: "Nelze vytvořit mapu"
+            error: "Nelze vytvořit mapu",
+            views: "zobrazení."
         },
         report: {
             flag: "Označit jako nevhodné",
@@ -65,5 +66,4 @@
             settings: "Nastavení"
         }
     })
-
 );

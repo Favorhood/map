@@ -1,7 +1,8 @@
 ﻿define(
      ({
         map: {
-            error: "Não foi possível criar o mapa"
+            error: "Não foi possível criar o mapa",
+            views: "visualizações."
         },
         report: {
             flag: "Marcar como inapropriado",
@@ -65,5 +66,4 @@
             settings: "Configurações"
         }
     })
-
 );

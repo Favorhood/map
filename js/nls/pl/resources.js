@@ -1,7 +1,8 @@
 ﻿define(
      ({
         map: {
-            error: "Nie można utworzyć mapy"
+            error: "Nie można utworzyć mapy",
+            views: "widoków mapy."
         },
         report: {
             flag: "Oflaguj jako niewłaściwe",
@@ -30,19 +31,19 @@
             igTime: "Przesłane w ciągu ostatnich dni",
             youtube: "YouTube",
             youtubeSettings: "Ustawienia serwisu YouTube",
-            ytSettingsInfo: "Zapoznaj się z materiałami wideo utworzonymi przez użytkowników zawierające zasoby sieciowe oraz profesjonalne.",
+            ytSettingsInfo: "Zapoznaj się z materiałami wideo utworzonymi przez użytkowników, które zawierają zasoby sieciowe oraz profesjonalne.",
             ytTime: "Przesłane w ciągu ostatnich",
             today: "Dzień",
             this_week: "Tydzień",
             this_month: "Miesiąc",
             all_time: "Wszystkie okresy",
-            moreInfo: "Dodatkowe informacje",
+            moreInfo: "Więcej informacji",
             searchTerms: "Słowa kluczowe",
             search: "Wyszukaj",
             flSettingsInfo: "Zwrócone wyniki, które pasują do tytułu, opisu lub znaczników zdjęcia.",
             twSettingsInfo: "Zobacz, co się teraz dzieje",
             igSettingsInfo: "Instagram to szybki, estetyczny i ciekawy sposób na dzielenie się nowymi wydarzeniami z życia z przyjaciółmi i rodziną.",
-            advancedOperators: "Wskazówka: w celu stworzenia procesów wyszukiwania zaawansowanego, skorzystaj z <a target="_blank" href="https://support.twitter.com/articles/71577-using-advanced-search">operatorów</a>.",
+            advancedOperators: "Wskazówka: w celu stworzenia procesów wyszukiwania zaawansowanego, skorzystaj z <a target=\"_blank\" href=\"https://support.twitter.com/articles/71577-using-advanced-search\">operatorów</a>.",
             tweetsFilteredBy: "Filtrowanie wpisów w serwisie Twitter według:",
             photosFilteredBy: "Filtrowanie zdjęć według:",
             videosFilteredBy: "Filtrowanie filmów wideo:",
@@ -61,9 +62,8 @@
             dateModified: "Ostatnia modyfikacja",
             noSearchResult: "Nie znaleziono wyników",
             switchAccount: "Przełącz konto",
-            signIn: "Logowanie",
+            signIn: "Zaloguj się",
             settings: "Ustawienia"
         }
     })
-
 );
